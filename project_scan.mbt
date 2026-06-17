@@ -17,7 +17,10 @@ fn collect_files(path : String, files : Array[String]) -> Unit raise {
 }
 
 ///|
-fn merge_markdown_stats(left : MarkdownStats, right : MarkdownStats) -> MarkdownStats {
+fn merge_markdown_stats(
+  left : MarkdownStats,
+  right : MarkdownStats,
+) -> MarkdownStats {
   {
     files: left.files + right.files,
     code_blocks: left.code_blocks + right.code_blocks,
@@ -98,7 +101,7 @@ fn build_project_report(
   readme : ReadmeStats,
   moon_mod : MoonModStats,
   ci : CiStats,
-  has_generated_mbti : Bool
+  has_generated_mbti : Bool,
 ) -> ProjectReport {
   let report = report_from_api_items(project_name, api_items)
   {

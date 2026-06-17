@@ -9,7 +9,10 @@ fn coverage_percent(total : Int, documented : Int) -> Int {
 
 ///|
 /// Build a minimal report from source-level scan results.
-pub fn report_from_api_items(project_name : String, items : Array[ApiItem]) -> ProjectReport {
+pub fn report_from_api_items(
+  project_name : String,
+  items : Array[ApiItem],
+) -> ProjectReport {
   let mut documented = 0
   let issues : Array[DocIssue] = []
   for item in items {
@@ -79,4 +82,3 @@ pub fn report_from_api_items(project_name : String, items : Array[ApiItem]) -> P
     issues,
   }
 }
-

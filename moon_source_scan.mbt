@@ -17,7 +17,8 @@ fn declaration_kind(line : String) -> String {
   let text = line.trim().to_owned()
   if text.has_prefix("pub fn ") {
     "function"
-  } else if text.has_prefix("pub struct ") || text.has_prefix("pub(all) struct ") {
+  } else if text.has_prefix("pub struct ") ||
+    text.has_prefix("pub(all) struct ") {
     "struct"
   } else if text.has_prefix("pub enum ") || text.has_prefix("pub(all) enum ") {
     "enum"
@@ -58,9 +59,7 @@ fn declaration_name(line : String) -> String {
   let mut end = text.length()
   for delimiter in delimiters {
     match text.find(delimiter) {
-      Some(index) => if index < end {
-        end = index
-      }
+      Some(index) => if index < end { end = index }
       None => ()
     }
   }

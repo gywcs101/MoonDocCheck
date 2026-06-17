@@ -89,4 +89,3 @@ pub(all) struct ProjectReport {
   has_generated_mbti : Bool
   issues : Array[DocIssue]
 } derive(Debug, Eq, ToJson)
-

@@ -67,7 +67,11 @@ Markdown report:
 moon run cmd/main -- scan examples/missing_docs --format markdown --output DOC_REPORT.md
 ```
 
-JSON output is planned for a later milestone.
+JSON report:
+
+```bash
+moon run cmd/main -- scan examples/missing_docs --format json --output doc-report.json
+```
 
 Example output:
 

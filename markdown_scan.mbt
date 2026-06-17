@@ -54,10 +54,19 @@ pub fn scan_readme_text(source : String) -> ReadmeStats {
   let lower = source.to_lower()
   {
     found: true,
-    has_overview: lower.contains("简介") || lower.contains("overview") || lower.contains("目标") || lower.contains("project"),
-    has_usage: lower.contains("使用") || lower.contains("usage") || lower.contains("install") || lower.contains("安装"),
+    has_overview: lower.contains("简介") ||
+    lower.contains("overview") ||
+    lower.contains("目标") ||
+    lower.contains("project"),
+    has_usage: lower.contains("使用") ||
+    lower.contains("usage") ||
+    lower.contains("install") ||
+    lower.contains("安装"),
     has_code_example: lower.contains("```"),
-    has_development_commands: lower.contains("moon check") || lower.contains("moon test") || lower.contains("开发"),
-    has_license_mention: lower.contains("license") || lower.contains("许可证"),
+    has_development_commands: lower.contains("moon check") ||
+    lower.contains("moon test") ||
+    lower.contains("开发"),
+    has_license_mention: lower.contains("license") ||
+    lower.contains("许可证"),
   }
 }

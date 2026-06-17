@@ -9,4 +9,3 @@ pub fn version() -> String {
 pub fn project_name() -> String {
   "MoonDocCheck"
 }
-

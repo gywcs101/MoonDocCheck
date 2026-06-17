@@ -11,4 +11,3 @@ pub fn scan_ci_text(source : String) -> CiStats {
     has_moon_run: lower.contains("moon run"),
   }
 }
-

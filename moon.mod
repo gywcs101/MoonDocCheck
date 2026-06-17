@@ -8,20 +8,11 @@ repository = "https://github.com/gywcs101/MoonDocCheck.git"
 
 license = "MIT"
 
-keywords = [
-  "moonbit",
-  "documentation",
-  "quality",
-  "checker",
-  "ci",
-]
+keywords = [ "moonbit", "documentation", "quality", "checker", "ci" ]
 
 description = "A MoonBit documentation quality checker for open-source packages and contest submissions."
 
-options(
-  "preferred-target": "native",
-)
-
+preferred_target = "native"
 
 import {
   "moonbitlang/async@0.19.4",

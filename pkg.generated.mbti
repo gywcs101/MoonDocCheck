@@ -16,6 +16,8 @@ pub fn is_readme_file(String) -> Bool
 
 pub fn project_name() -> String
 
+pub fn render_json(ProjectReport, indent? : Int) -> String
+
 pub fn render_markdown(ProjectReport) -> String
 
 pub fn render_text(ProjectReport) -> String

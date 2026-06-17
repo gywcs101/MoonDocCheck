@@ -1,6 +1,10 @@
 ///|
 fn yes_no(value : Bool) -> String {
-  if value { "yes" } else { "no" }
+  if value {
+    "yes"
+  } else {
+    "no"
+  }
 }
 
 ///|
@@ -25,8 +29,12 @@ pub fn render_text(report : ProjectReport) -> String {
   lines.push("  Has code example: " + yes_no(report.readme.has_code_example))
   lines.push("")
   lines.push("Examples:")
-  lines.push("  mbt check blocks: " + report.markdown.mbt_check_blocks.to_string())
-  lines.push("  ordinary MoonBit blocks: " + report.markdown.moonbit_blocks.to_string())
+  lines.push(
+    "  mbt check blocks: " + report.markdown.mbt_check_blocks.to_string(),
+  )
+  lines.push(
+    "  ordinary MoonBit blocks: " + report.markdown.moonbit_blocks.to_string(),
+  )
   lines.push("")
   lines.push("CI:")
   lines.push("  GitHub Actions files: " + report.ci.workflow_files.to_string())
@@ -35,7 +43,11 @@ pub fn render_text(report : ProjectReport) -> String {
   if !report.issues.is_empty() {
     lines.push("")
     lines.push("Issues:")
-    let limit = if report.issues.length() > 20 { 20 } else { report.issues.length() }
+    let limit = if report.issues.length() > 20 {
+      20
+    } else {
+      report.issues.length()
+    }
     for index in 0..<limit {
       let issue = report.issues[index]
       let location = match issue.line {
@@ -45,7 +57,9 @@ pub fn render_text(report : ProjectReport) -> String {
       lines.push("  - " + location + " " + issue.message)
     }
     if report.issues.length() > limit {
-      lines.push("  ... " + (report.issues.length() - limit).to_string() + " more issues")
+      lines.push(
+        "  ... " + (report.issues.length() - limit).to_string() + " more issues",
+      )
     }
   }
   lines.join("\n")

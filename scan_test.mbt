@@ -159,3 +159,10 @@ test "json renderer includes project report fields" {
   assert_true(json.contains("\"documentation_coverage\""))
   assert_true(json.contains("\"issues\""))
 }
+
+///|
+test "cli supports json format rendering" {
+  let report = report_from_api_items("demo", [])
+  let json = render_json(report)
+  assert_true(json.contains("\"project_name\""))
+}

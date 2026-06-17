@@ -22,4 +22,3 @@ pub fn is_github_workflow_file(path : String) -> Bool {
   (path.contains(".github/workflows/") || path.contains(".github\\workflows\\")) &&
   (path.has_suffix(".yml") || path.has_suffix(".yaml"))
 }
-

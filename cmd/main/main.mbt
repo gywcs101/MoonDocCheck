@@ -1,7 +1,9 @@
 ///|
 fn usage() -> Unit {
   println("\{@moondoccheck.project_name()} \{@moondoccheck.version()}")
-  println("Usage: moon run cmd/main -- scan <path> [--format text|markdown] [--output file]")
+  println(
+    "Usage: moon run cmd/main -- scan <path> [--format text|markdown|json] [--output file]",
+  )
 }
 
 ///|
@@ -15,9 +17,14 @@ fn arg_value(args : Array[String], name : String) -> String? {
 }
 
 ///|
-fn render_for_format(report : @moondoccheck.ProjectReport, format : String) -> String {
+fn render_for_format(
+  report : @moondoccheck.ProjectReport,
+  format : String,
+) -> String {
   if format == "markdown" {
     @moondoccheck.render_markdown(report)
+  } else if format == "json" {
+    @moondoccheck.render_json(report)
   } else {
     @moondoccheck.render_text(report)
   }
