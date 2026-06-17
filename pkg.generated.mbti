@@ -1,5 +1,5 @@
 // Generated using `moon info`, DON'T EDIT IT
-package "shop1111/moondoccheck"
+package "gywcs101/MoonDocCheck"
 
 import {
   "moonbitlang/core/debug",

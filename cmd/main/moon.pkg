@@ -1,5 +1,5 @@
 import {
-  "shop1111/moondoccheck",
+  "gywcs101/MoonDocCheck" @moondoccheck,
   "moonbitlang/core/env",
   "moonbitlang/x/fs",
 }

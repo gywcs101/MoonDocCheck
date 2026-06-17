@@ -1,10 +1,10 @@
-name = "shop1111/moondoccheck"
+name = "gywcs101/MoonDocCheck"
 
 version = "0.1.0"
 
 readme = "README.md"
 
-repository = "https://github.com/shop1111/moondoccheck.git"
+repository = "https://github.com/gywcs101/MoonDocCheck.git"
 
 license = "MIT"
 
