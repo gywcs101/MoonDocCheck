@@ -4,6 +4,24 @@ MoonDocCheck is a documentation quality checker for MoonBit projects. It scans a
 
 MoonDocCheck does not replace MoonBit's official documentation tools. It works alongside existing MoonBit features such as doc comments, `README.mbt.md` checkable examples, `moon info`, and `moon ide doc`.
 
+## Status
+
+MoonDocCheck is in early contest development. The current version already provides a working CLI, source scanner, Markdown scanner, package metadata checks, CI checks, text reports, Markdown reports, example projects, and automated tests.
+
+The first submission target is a practical `v0.1.0` prototype that helps MoonBit authors review documentation readiness before publishing packages or submitting contest projects.
+
+## Why This Exists
+
+MoonBit projects can already document APIs with `///` comments, keep checked examples in `README.mbt.md`, and generate public API summaries with `moon info`. However, maintainers still need a quick way to answer practical review questions:
+
+- Which public APIs are undocumented?
+- Are README examples checkable by the MoonBit toolchain?
+- Is package metadata ready for publication?
+- Does CI run the basic MoonBit validation commands?
+- What should be fixed before the project is reviewed?
+
+MoonDocCheck turns those questions into a single local report.
+
 ## Goals
 
 - Detect public MoonBit APIs that do not have doc comments.
@@ -34,6 +52,22 @@ Scan an example project:
 ```bash
 moon run cmd/main -- scan examples/missing_docs
 ```
+
+## Report Formats
+
+Terminal report:
+
+```bash
+moon run cmd/main -- scan examples/good_project
+```
+
+Markdown report:
+
+```bash
+moon run cmd/main -- scan examples/missing_docs --format markdown --output DOC_REPORT.md
+```
+
+JSON output is planned for a later milestone.
 
 Example output:
 
@@ -97,6 +131,14 @@ MoonDocCheck currently supports:
 - Terminal report output.
 - Markdown report output.
 - Example projects for good and problematic documentation states.
+
+## Example Fixtures
+
+The repository includes small example projects:
+
+- `examples/good_project`: a project with documented public APIs, README examples, package metadata, generated interface summary, and CI signals.
+- `examples/missing_docs`: a project with missing and weak API documentation, useful for demonstrating issue reporting.
+- `examples/readme_gaps`: a project with a minimal README and incomplete metadata, useful for README and metadata checks.
 
 ## Non-Goals
 
@@ -162,6 +204,18 @@ Planned improvements before the first stable release:
 - Add CI mode with coverage thresholds and non-zero exit codes.
 - Add safer report-generation helpers without modifying source files.
 - Publish the package to mooncakes.io.
+
+## Contest Scope
+
+For the initial contest review, the project focuses on a reliable read-only checker:
+
+- It scans real MoonBit project files.
+- It produces actionable feedback.
+- It includes tests and fixtures.
+- It avoids automatic source rewrites.
+- It documents limitations clearly.
+
+After the initial review, the project will focus on configuration, JSON output, stricter CI integration, and more accurate parsing for complex declarations.
 
 ## License
 
