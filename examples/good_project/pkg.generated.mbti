@@ -1,0 +1,9 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "example/good_project"
+
+pub fn add(Int, Int) -> Int
+
+pub struct Example {
+  value : Int
+} derive(Eq, Debug)
+

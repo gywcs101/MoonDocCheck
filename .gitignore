@@ -1,5 +1,7 @@
 .moon/
+.mooncakes/
 .repos/
+_build/
 target/
 build/
 *.wasm
@@ -9,3 +11,4 @@ build/
 DOC_REPORT.md
 doc-report.json
 .analysis_*/
+/.moondoccheck-tmp/

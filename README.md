@@ -99,13 +99,23 @@ CI:
 
 - [x] 完成项目方向设计
 - [x] 完成初版计划文档
-- [ ] 初始化 MoonBit 工程
-- [ ] 实现核心扫描器
-- [ ] 实现报告输出
-- [ ] 添加示例项目
-- [ ] 添加测试和 CI
+- [x] 初始化 MoonBit 工程
+- [x] 实现核心扫描器
+- [x] 实现终端与 Markdown 报告输出
+- [x] 添加示例项目
+- [x] 添加基础测试和 CI
+- [ ] 完善 JSON 报告
+- [ ] 完善更多规则和配置项
+
+## 开发命令
+
+```bash
+moon check
+moon test
+moon run cmd/main -- scan examples/missing_docs
+moon run cmd/main -- scan . --format markdown --output DOC_REPORT.md
+```
 
 ## 许可证
 
 本项目计划使用 MIT License。
-

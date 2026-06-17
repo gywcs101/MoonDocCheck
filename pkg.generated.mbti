@@ -1,0 +1,123 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "shop1111/moondoccheck"
+
+import {
+  "moonbitlang/core/debug",
+}
+
+// Values
+pub fn is_github_workflow_file(String) -> Bool
+
+pub fn is_markdown_file(String) -> Bool
+
+pub fn is_moonbit_source_file(String) -> Bool
+
+pub fn is_readme_file(String) -> Bool
+
+pub fn project_name() -> String
+
+pub fn render_markdown(ProjectReport) -> String
+
+pub fn render_text(ProjectReport) -> String
+
+pub fn report_from_api_items(String, Array[ApiItem]) -> ProjectReport
+
+pub fn scan_ci_text(String) -> CiStats
+
+pub fn scan_markdown_text(String) -> MarkdownStats
+
+pub fn scan_moon_mod_text(String) -> MoonModStats
+
+pub fn scan_moon_source(String, String) -> Array[ApiItem]
+
+pub fn scan_project(String) -> ProjectReport raise
+
+pub fn scan_readme_text(String) -> ReadmeStats
+
+pub fn should_ignore_path(String) -> Bool
+
+pub fn version() -> String
+
+// Errors
+
+// Types and methods
+pub(all) struct ApiItem {
+  name : String
+  kind : String
+  file : String
+  line : Int
+  documented : Bool
+  weak_doc : Bool
+} derive(Eq, ToJson, @debug.Debug)
+
+pub(all) struct CiStats {
+  workflow_files : Int
+  has_moon_check : Bool
+  has_moon_test : Bool
+  has_moon_fmt : Bool
+  has_moon_info : Bool
+  has_moon_run : Bool
+} derive(Eq, ToJson, @debug.Debug)
+
+pub(all) struct DocIssue {
+  severity : Severity
+  file : String
+  line : Int?
+  message : String
+} derive(Eq, ToJson, @debug.Debug)
+
+pub(all) struct MarkdownStats {
+  files : Int
+  code_blocks : Int
+  mbt_check_blocks : Int
+  mbt_nocheck_blocks : Int
+  moonbit_blocks : Int
+} derive(Eq, ToJson, @debug.Debug)
+
+pub(all) struct MoonModStats {
+  found : Bool
+  has_name : Bool
+  has_version : Bool
+  has_readme : Bool
+  has_repository : Bool
+  has_license : Bool
+  has_keywords : Bool
+  has_description : Bool
+} derive(Eq, ToJson, @debug.Debug)
+
+pub(all) struct ProjectReport {
+  project_name : String
+  files_scanned : Int
+  moonbit_source_files : Int
+  public_api_total : Int
+  public_api_documented : Int
+  public_api_missing_docs : Int
+  documentation_coverage : Int
+  api_items : Array[ApiItem]
+  markdown : MarkdownStats
+  readme : ReadmeStats
+  moon_mod : MoonModStats
+  ci : CiStats
+  has_generated_mbti : Bool
+  issues : Array[DocIssue]
+} derive(Eq, ToJson, @debug.Debug)
+
+pub(all) struct ReadmeStats {
+  found : Bool
+  has_overview : Bool
+  has_usage : Bool
+  has_code_example : Bool
+  has_development_commands : Bool
+  has_license_mention : Bool
+} derive(Eq, ToJson, @debug.Debug)
+
+pub(all) enum Severity {
+  Error
+  Warning
+  Suggestion
+} derive(Eq, ToJson, @debug.Debug)
+
+// Type aliases
+
+// Traits
+

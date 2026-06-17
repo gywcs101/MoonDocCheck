@@ -1,0 +1,9 @@
+import {
+  "shop1111/moondoccheck",
+  "moonbitlang/core/env",
+  "moonbitlang/x/fs",
+}
+
+options(
+  "is-main": true,
+)
