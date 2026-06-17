@@ -6,6 +6,8 @@ import {
 }
 
 // Values
+pub fn build_file_coverage(Array[ApiItem]) -> Array[FileCoverage]
+
 pub fn default_scan_options() -> ScanOptions
 
 pub fn is_github_workflow_file(String) -> Bool
@@ -76,6 +78,14 @@ pub(all) struct DocIssue {
   message : String
 } derive(Eq, ToJson, @debug.Debug)
 
+pub(all) struct FileCoverage {
+  file : String
+  public_api_total : Int
+  public_api_documented : Int
+  public_api_missing_docs : Int
+  documentation_coverage : Int
+} derive(Eq, ToJson, @debug.Debug)
+
 pub(all) struct MarkdownStats {
   files : Int
   code_blocks : Int
@@ -104,6 +114,7 @@ pub(all) struct ProjectReport {
   public_api_missing_docs : Int
   documentation_coverage : Int
   api_items : Array[ApiItem]
+  file_coverage : Array[FileCoverage]
   markdown : MarkdownStats
   readme : ReadmeStats
   moon_mod : MoonModStats

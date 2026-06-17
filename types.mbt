@@ -33,6 +33,16 @@ pub(all) struct DocIssue {
 } derive(Debug, Eq, ToJson)
 
 ///|
+/// Documentation coverage summary for one source file.
+pub(all) struct FileCoverage {
+  file : String
+  public_api_total : Int
+  public_api_documented : Int
+  public_api_missing_docs : Int
+  documentation_coverage : Int
+} derive(Debug, Eq, ToJson)
+
+///|
 /// Summary of Markdown code examples found in project documentation.
 pub(all) struct MarkdownStats {
   files : Int
@@ -88,6 +98,7 @@ pub(all) struct ProjectReport {
   public_api_missing_docs : Int
   documentation_coverage : Int
   api_items : Array[ApiItem]
+  file_coverage : Array[FileCoverage]
   markdown : MarkdownStats
   readme : ReadmeStats
   moon_mod : MoonModStats

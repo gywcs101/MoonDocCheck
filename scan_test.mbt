@@ -57,6 +57,42 @@ test "render report includes missing documentation issue" {
 }
 
 ///|
+test "report includes per-file documentation coverage" {
+  let items : Array[ApiItem] = [
+    {
+      name: "documented",
+      kind: "fn",
+      file: "src/a.mbt",
+      line: 1,
+      documented: true,
+      weak_doc: false,
+    },
+    {
+      name: "missing",
+      kind: "fn",
+      file: "src/a.mbt",
+      line: 5,
+      documented: false,
+      weak_doc: false,
+    },
+    {
+      name: "ready",
+      kind: "struct",
+      file: "src/b.mbt",
+      line: 1,
+      documented: true,
+      weak_doc: false,
+    },
+  ]
+  let report = report_from_api_items("demo", items)
+  inspect(report.file_coverage.length(), content="2")
+  inspect(report.file_coverage[0].public_api_total, content="2")
+  inspect(report.file_coverage[0].documentation_coverage, content="50")
+  assert_true(render_markdown(report).contains("## File Coverage"))
+  assert_true(render_text(report).contains("File coverage:"))
+}
+
+///|
 test "weak documentation is detected" {
   let source =
     #|/// TODO

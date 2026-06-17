@@ -8,6 +8,51 @@ fn coverage_percent(total : Int, documented : Int) -> Int {
 }
 
 ///|
+fn find_file_coverage_index(items : Array[FileCoverage], file : String) -> Int {
+  for index, item in items {
+    if item.file == file {
+      return index
+    }
+  }
+  -1
+}
+
+///|
+/// Build per-file documentation coverage from scanned public API items.
+pub fn build_file_coverage(items : Array[ApiItem]) -> Array[FileCoverage] {
+  let summaries : Array[FileCoverage] = []
+  for item in items {
+    let index = find_file_coverage_index(summaries, item.file)
+    if index == -1 {
+      let documented = if item.documented { 1 } else { 0 }
+      summaries.push({
+        file: item.file,
+        public_api_total: 1,
+        public_api_documented: documented,
+        public_api_missing_docs: 1 - documented,
+        documentation_coverage: coverage_percent(1, documented),
+      })
+    } else {
+      let old = summaries[index]
+      let documented = if item.documented {
+        old.public_api_documented + 1
+      } else {
+        old.public_api_documented
+      }
+      let total = old.public_api_total + 1
+      summaries[index] = {
+        file: old.file,
+        public_api_total: total,
+        public_api_documented: documented,
+        public_api_missing_docs: total - documented,
+        documentation_coverage: coverage_percent(total, documented),
+      }
+    }
+  }
+  summaries
+}
+
+///|
 /// Build a minimal report from source-level scan results.
 pub fn report_from_api_items(
   project_name : String,
@@ -45,6 +90,7 @@ pub fn report_from_api_items(
     public_api_missing_docs: total - documented,
     documentation_coverage: coverage_percent(total, documented),
     api_items: items,
+    file_coverage: build_file_coverage(items),
     markdown: {
       files: 0,
       code_blocks: 0,

@@ -22,6 +22,23 @@ pub fn render_text(report : ProjectReport) -> String {
   lines.push("  Documented: " + report.public_api_documented.to_string())
   lines.push("  Missing: " + report.public_api_missing_docs.to_string())
   lines.push("  Coverage: " + report.documentation_coverage.to_string() + "%")
+  if !report.file_coverage.is_empty() {
+    lines.push("")
+    lines.push("File coverage:")
+    for summary in report.file_coverage {
+      lines.push(
+        "  - " +
+        summary.file +
+        ": " +
+        summary.public_api_documented.to_string() +
+        "/" +
+        summary.public_api_total.to_string() +
+        " documented (" +
+        summary.documentation_coverage.to_string() +
+        "%)",
+      )
+    }
+  }
   lines.push("")
   lines.push("README:")
   lines.push("  Found: " + yes_no(report.readme.found))

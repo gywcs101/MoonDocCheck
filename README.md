@@ -31,6 +31,7 @@ MoonDocCheck turns those questions into a single local report.
 - Check whether `moon.mod` contains useful package metadata.
 - Check whether `pkg.generated.mbti` files exist.
 - Check whether GitHub Actions run `moon check` and `moon test`.
+- Summarize documentation coverage per MoonBit source file.
 - Produce terminal and Markdown reports that are easy to review.
 
 ## Usage
@@ -94,6 +95,9 @@ Public API documentation:
   Missing: 1
   Coverage: 66%
 
+File coverage:
+  - examples/missing_docs/sample.mbt: 2/3 documented (66%)
+
 README:
   Found: yes
   Has usage: yes
@@ -132,6 +136,7 @@ MoonDocCheck currently supports:
   - `pub(all) enum`
   - `declare pub`
 - Matching public APIs with nearby `///` documentation comments.
+- File-level documentation coverage summaries.
 - Weak documentation warnings.
 - README detection.
 - Markdown code block counting.
@@ -210,7 +215,6 @@ moon run cmd/main -- scan examples/missing_docs
 Planned improvements before the first stable release:
 
 - Improve multi-line public declaration detection.
-- Add file-level documentation coverage summaries.
 - Add CI mode with coverage thresholds and non-zero exit codes.
 - Add safer report-generation helpers without modifying source files.
 - Publish the package to mooncakes.io.

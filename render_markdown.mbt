@@ -24,6 +24,28 @@ pub fn render_markdown(report : ProjectReport) -> String {
     report.documentation_coverage.to_string() +
     "% |",
   )
+  if !report.file_coverage.is_empty() {
+    lines.push("")
+    lines.push("## File Coverage")
+    lines.push("")
+    lines.push("| File | Public APIs | Documented | Missing | Coverage |")
+    lines.push("|---|---:|---:|---:|---:|")
+    for summary in report.file_coverage {
+      lines.push(
+        "| `" +
+        summary.file +
+        "` | " +
+        summary.public_api_total.to_string() +
+        " | " +
+        summary.public_api_documented.to_string() +
+        " | " +
+        summary.public_api_missing_docs.to_string() +
+        " | " +
+        summary.documentation_coverage.to_string() +
+        "% |",
+      )
+    }
+  }
   lines.push("")
   lines.push("## README")
   lines.push("")
