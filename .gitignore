@@ -1,0 +1,11 @@
+.moon/
+.repos/
+target/
+build/
+*.wasm
+*.js
+*.map
+*.log
+DOC_REPORT.md
+doc-report.json
+.analysis_*/
