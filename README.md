@@ -1,64 +1,82 @@
 # MoonDocCheck
 
-MoonDocCheck 是一个面向 MoonBit 项目的文档质量检查与报告工具。它会扫描 MoonBit 仓库中的源码、README、`moon.mod`、生成的接口摘要和 CI 配置，帮助维护者快速了解项目是否具备一个可发布、可审核、可维护的开源包所需要的文档与工程化信号。
+MoonDocCheck is a documentation quality checker for MoonBit projects. It scans a MoonBit repository and reports whether the project has the documentation, examples, package metadata, generated API summaries, and CI signals expected from a maintainable open-source package.
 
-本项目计划参加 MoonBit 开源生态建设比赛，当前处于立项与早期开发阶段。
+MoonDocCheck does not replace MoonBit's official documentation tools. It works alongside existing MoonBit features such as doc comments, `README.mbt.md` checkable examples, `moon info`, and `moon ide doc`.
 
-## 项目目标
+## Goals
 
-MoonBit 已经提供了文档注释、`README.mbt.md` 可检查示例、`moon info` 生成接口摘要、`moon ide doc` 查询 API 等官方能力。MoonDocCheck 不替代这些官方工具，而是围绕它们提供一个轻量的项目健康检查入口：
+- Detect public MoonBit APIs that do not have doc comments.
+- Warn about weak doc comments such as `TODO`, `FIXME`, or very short placeholder text.
+- Check whether a README exists and contains common open-source project sections.
+- Count checkable documentation examples written as `mbt check` code blocks.
+- Check whether `moon.mod` contains useful package metadata.
+- Check whether `pkg.generated.mbti` files exist.
+- Check whether GitHub Actions run `moon check` and `moon test`.
+- Produce terminal and Markdown reports that are easy to review.
 
-- 检查公开 API 是否有文档注释。
-- 检查 README 是否包含基本使用说明。
-- 统计文档中可被 MoonBit 工具链检查的 `mbt check` 示例。
-- 检查 `moon.mod` 元数据是否完整。
-- 检查项目是否生成 `pkg.generated.mbti`。
-- 检查 GitHub Actions 是否运行 `moon check` 和 `moon test`。
-- 输出终端、Markdown 和 JSON 格式的文档质量报告。
+## Usage
 
-## 预期使用方式
-
-初版计划提供命令行工具：
+Scan a MoonBit project and print a terminal report:
 
 ```bash
 moon run cmd/main -- scan .
-moon run cmd/main -- scan . --format markdown --output DOC_REPORT.md
-moon run cmd/main -- scan . --format json --output doc-report.json
 ```
 
-示例输出：
+Scan a project and write a Markdown report:
+
+```bash
+moon run cmd/main -- scan . --format markdown --output DOC_REPORT.md
+```
+
+Scan an example project:
+
+```bash
+moon run cmd/main -- scan examples/missing_docs
+```
+
+Example output:
 
 ```text
 MoonDocCheck Report
 
+Project: examples/missing_docs
+Files scanned: 4
+MoonBit source files: 1
+
 Public API documentation:
-  Total: 31
-  Documented: 23
-  Missing: 8
-  Coverage: 74%
+  Total: 3
+  Documented: 2
+  Missing: 1
+  Coverage: 66%
 
 README:
   Found: yes
-  Has overview: yes
   Has usage: yes
   Has code example: yes
 
 Examples:
-  mbt check blocks: 4
-  ordinary MoonBit blocks: 3
+  mbt check blocks: 0
+  ordinary MoonBit blocks: 1
 
 CI:
-  GitHub Actions: found
-  moon check: yes
-  moon test: yes
+  GitHub Actions files: 0
+  moon check: no
+  moon test: no
+
+Issues:
+  - examples/missing_docs/sample.mbt:8 Missing documentation for public API `missing_doc`
+  - examples/missing_docs/sample.mbt:14 Weak documentation for public API `WeakDoc`
 ```
 
-## 初版功能范围
+## Current Features
 
-计划在初审前完成一个可实际运行的强雏形：
+MoonDocCheck currently supports:
 
-- 递归扫描 MoonBit 项目目录。
-- 识别 `.mbt` 文件中的常见公开声明：
+- Recursive project scanning.
+- Ignoring common generated or dependency directories such as `.git`, `.moon`, `.mooncakes`, `.repos`, `_build`, `target`, and `build`.
+- Public API extraction from `.mbt` files.
+- Detection for common public declarations:
   - `pub fn`
   - `pub struct`
   - `pub enum`
@@ -67,55 +85,84 @@ CI:
   - `pub suberror`
   - `pub(all) struct`
   - `pub(all) enum`
-- 判断公开 API 上方是否有 `///` 文档注释。
-- 检测 `TODO`、`FIXME`、过短注释等弱文档信号。
-- 检查 `README.md` / `README.mbt.md` 是否存在。
-- 统计 Markdown 中的 `mbt check`、`mbt nocheck` 和普通 MoonBit 代码块。
-- 检查 `moon.mod` 中的 name、version、license、repository、description、keywords 等元数据。
-- 检查 `pkg.generated.mbti` 是否存在。
-- 检查 GitHub Actions 中是否包含 `moon check` 和 `moon test`。
-- 输出终端报告和 Markdown 报告。
-- 提供示例项目和测试用例。
+  - `declare pub`
+- Matching public APIs with nearby `///` documentation comments.
+- Weak documentation warnings.
+- README detection.
+- Markdown code block counting.
+- `mbt check`, `mbt nocheck`, and ordinary MoonBit code block statistics.
+- Lightweight `moon.mod` metadata checks.
+- `pkg.generated.mbti` existence checks.
+- GitHub Actions command checks.
+- Terminal report output.
+- Markdown report output.
+- Example projects for good and problematic documentation states.
 
-## 非目标
+## Non-Goals
 
-初版不会做这些事情：
+MoonDocCheck intentionally does not try to:
 
-- 不实现完整 MoonBit 语法解析器。
-- 不替代 MoonBit 官方文档系统。
-- 不做跨包语义分析。
-- 不自动重写用户源码。
-- 不对 README 自然语言内容做复杂语义判断。
+- Implement a complete MoonBit parser.
+- Replace MoonBit's official documentation system.
+- Perform full semantic analysis across packages.
+- Rewrite user source files automatically.
+- Make strict natural-language judgments about README quality.
+- Guarantee that ordinary display-only code blocks compile.
 
-## 项目计划
+## Project Layout
 
-详细计划见：
+Key files:
 
-- [docs/moon-doc-check-plan.md](docs/moon-doc-check-plan.md)
+- `moon_source_scan.mbt`: scans MoonBit source files and extracts public APIs.
+- `markdown_scan.mbt`: scans Markdown files and counts documentation examples.
+- `moon_mod_scan.mbt`: checks package metadata in `moon.mod`.
+- `ci_scan.mbt`: checks GitHub Actions workflow text.
+- `project_scan.mbt`: coordinates project-level scanning.
+- `report.mbt`: builds project reports.
+- `render_text.mbt`: renders terminal reports.
+- `render_markdown.mbt`: renders Markdown reports.
+- `cmd/main/main.mbt`: command-line entry point.
+- `examples/`: small fixture projects used to demonstrate scanner output.
 
-## 开发状态
+## Development
 
-当前状态：
-
-- [x] 完成项目方向设计
-- [x] 完成初版计划文档
-- [x] 初始化 MoonBit 工程
-- [x] 实现核心扫描器
-- [x] 实现终端与 Markdown 报告输出
-- [x] 添加示例项目
-- [x] 添加基础测试和 CI
-- [ ] 完善 JSON 报告
-- [ ] 完善更多规则和配置项
-
-## 开发命令
+Run checks:
 
 ```bash
 moon check
-moon test
-moon run cmd/main -- scan examples/missing_docs
-moon run cmd/main -- scan . --format markdown --output DOC_REPORT.md
 ```
 
-## 许可证
+Run tests:
 
-本项目计划使用 MIT License。
+```bash
+moon test
+```
+
+Generate interface summaries:
+
+```bash
+moon info
+```
+
+Run the CLI locally:
+
+```bash
+moon run cmd/main -- scan examples/good_project
+moon run cmd/main -- scan examples/missing_docs
+```
+
+## Roadmap
+
+Planned improvements before the first stable release:
+
+- Add JSON report output.
+- Add configurable scan rules and ignore paths.
+- Improve multi-line public declaration detection.
+- Add file-level documentation coverage summaries.
+- Add CI mode with coverage thresholds and non-zero exit codes.
+- Add safer report-generation helpers without modifying source files.
+- Publish the package to mooncakes.io.
+
+## License
+
+This project is licensed under the MIT License.

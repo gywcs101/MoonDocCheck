@@ -12,3 +12,5 @@ DOC_REPORT.md
 doc-report.json
 .analysis_*/
 /.moondoccheck-tmp/
+/docs/
+/progress/
