@@ -150,3 +150,12 @@ test "markdown renderer includes summary table" {
   assert_true(markdown.contains("# MoonDocCheck Report"))
   assert_true(markdown.contains("| Public APIs | 0 |"))
 }
+
+///|
+test "json renderer includes project report fields" {
+  let report = report_from_api_items("demo", [])
+  let json = render_json(report)
+  assert_true(json.contains("\"project_name\""))
+  assert_true(json.contains("\"documentation_coverage\""))
+  assert_true(json.contains("\"issues\""))
+}
