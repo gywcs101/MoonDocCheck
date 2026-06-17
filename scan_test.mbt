@@ -135,6 +135,18 @@ test "path filter ignores dependency caches" {
 }
 
 ///|
+test "path filter supports custom scan exclusions" {
+  let exclusions = ["vendor", "generated/api"]
+  assert_true(
+    should_ignore_path_with_exclusions("vendor/pkg/sample.mbt", exclusions),
+  )
+  assert_true(
+    should_ignore_path_with_exclusions("src/generated/api/out.mbt", exclusions),
+  )
+  assert_false(should_ignore_path_with_exclusions("src/main.mbt", exclusions))
+}
+
+///|
 test "file classifier recognizes key project files" {
   assert_true(is_moonbit_source_file("sample.mbt"))
   assert_false(is_moonbit_source_file("README.mbt.md"))

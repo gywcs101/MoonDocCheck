@@ -2,7 +2,7 @@
 fn usage() -> Unit {
   println("\{@moondoccheck.project_name()} \{@moondoccheck.version()}")
   println(
-    "Usage: moon run cmd/main -- scan <path> [--format text|markdown|json] [--output file]",
+    "Usage: moon run cmd/main -- scan <path> [--format text|markdown|json] [--output file] [--exclude pattern]",
   )
 }
 
@@ -14,6 +14,17 @@ fn arg_value(args : Array[String], name : String) -> String? {
     }
   }
   None
+}
+
+///|
+fn arg_values(args : Array[String], name : String) -> Array[String] {
+  let values : Array[String] = []
+  for index, arg in args {
+    if arg == name && index + 1 < args.length() {
+      values.push(args[index + 1])
+    }
+  }
+  values
 }
 
 ///|
@@ -34,7 +45,10 @@ fn render_for_format(
 fn main raise {
   let args = @env.args()
   if args.length() >= 3 && args[1] == "scan" {
-    let report = @moondoccheck.scan_project(args[2])
+    let options : @moondoccheck.ScanOptions = {
+      exclusions: arg_values(args, "--exclude"),
+    }
+    let report = @moondoccheck.scan_project_with_options(args[2], options)
     let format = arg_value(args, "--format").unwrap_or("text")
     let output = render_for_format(report, format)
     match arg_value(args, "--output") {

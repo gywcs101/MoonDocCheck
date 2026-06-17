@@ -6,6 +6,8 @@ import {
 }
 
 // Values
+pub fn default_scan_options() -> ScanOptions
+
 pub fn is_github_workflow_file(String) -> Bool
 
 pub fn is_markdown_file(String) -> Bool
@@ -13,6 +15,8 @@ pub fn is_markdown_file(String) -> Bool
 pub fn is_moonbit_source_file(String) -> Bool
 
 pub fn is_readme_file(String) -> Bool
+
+pub fn matches_exclusion(String, String) -> Bool
 
 pub fn project_name() -> String
 
@@ -34,9 +38,13 @@ pub fn scan_moon_source(String, String) -> Array[ApiItem]
 
 pub fn scan_project(String) -> ProjectReport raise
 
+pub fn scan_project_with_options(String, ScanOptions) -> ProjectReport raise
+
 pub fn scan_readme_text(String) -> ReadmeStats
 
 pub fn should_ignore_path(String) -> Bool
+
+pub fn should_ignore_path_with_exclusions(String, Array[String]) -> Bool
 
 pub fn version() -> String
 
@@ -111,6 +119,10 @@ pub(all) struct ReadmeStats {
   has_code_example : Bool
   has_development_commands : Bool
   has_license_mention : Bool
+} derive(Eq, ToJson, @debug.Debug)
+
+pub(all) struct ScanOptions {
+  exclusions : Array[String]
 } derive(Eq, ToJson, @debug.Debug)
 
 pub(all) enum Severity {

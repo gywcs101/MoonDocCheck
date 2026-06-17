@@ -1,4 +1,10 @@
 ///|
+/// User-configurable options for a project scan.
+pub(all) struct ScanOptions {
+  exclusions : Array[String]
+} derive(Debug, Eq, ToJson)
+
+///|
 /// Severity of a documentation or project readiness issue.
 pub(all) enum Severity {
   Error

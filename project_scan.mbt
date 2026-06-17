@@ -4,14 +4,18 @@ fn join_path(base : String, child : String) -> String {
 }
 
 ///|
-fn collect_files(path : String, files : Array[String]) -> Unit raise {
-  if should_ignore_path(path) {
+fn collect_files(
+  path : String,
+  files : Array[String],
+  options : ScanOptions,
+) -> Unit raise {
+  if should_ignore_path_with_exclusions(path, options.exclusions) {
     ()
   } else if @fs.is_file(path) {
     files.push(path)
   } else if @fs.is_dir(path) {
     for child in @fs.read_dir(path) {
-      collect_files(join_path(path, child), files)
+      collect_files(join_path(path, child), files, options)
     }
   }
 }
@@ -117,10 +121,19 @@ fn build_project_report(
 }
 
 ///|
-/// Scan a MoonBit project directory and build a documentation quality report.
-pub fn scan_project(path : String) -> ProjectReport raise {
+/// Build default scan options.
+pub fn default_scan_options() -> ScanOptions {
+  { exclusions: [] }
+}
+
+///|
+/// Scan a MoonBit project directory with explicit scan options.
+pub fn scan_project_with_options(
+  path : String,
+  options : ScanOptions,
+) -> ProjectReport raise {
   let files : Array[String] = []
-  collect_files(path, files)
+  collect_files(path, files, options)
   let api_items : Array[ApiItem] = []
   let mut markdown = empty_markdown_stats()
   let mut readme = missing_readme_stats()
@@ -160,4 +173,10 @@ pub fn scan_project(path : String) -> ProjectReport raise {
     ci,
     has_generated_mbti,
   )
+}
+
+///|
+/// Scan a MoonBit project directory and build a documentation quality report.
+pub fn scan_project(path : String) -> ProjectReport raise {
+  scan_project_with_options(path, default_scan_options())
 }

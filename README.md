@@ -47,6 +47,12 @@ Scan a project and write a Markdown report:
 moon run cmd/main -- scan . --format markdown --output DOC_REPORT.md
 ```
 
+Exclude generated or vendored paths:
+
+```bash
+moon run cmd/main -- scan . --exclude vendor --exclude generated
+```
+
 Scan an example project:
 
 ```bash
@@ -113,6 +119,7 @@ MoonDocCheck currently supports:
 
 - Recursive project scanning.
 - Ignoring common generated or dependency directories such as `.git`, `.moon`, `.mooncakes`, `.repos`, `_build`, `target`, and `build`.
+- Configurable scan exclusions through repeated `--exclude` options.
 - Public API extraction from `.mbt` files.
 - Detection for common public declarations:
   - `pub fn`
@@ -134,6 +141,7 @@ MoonDocCheck currently supports:
 - GitHub Actions command checks.
 - Terminal report output.
 - Markdown report output.
+- JSON report output.
 - Example projects for good and problematic documentation states.
 
 ## Example Fixtures
@@ -201,8 +209,6 @@ moon run cmd/main -- scan examples/missing_docs
 
 Planned improvements before the first stable release:
 
-- Add JSON report output.
-- Add configurable scan rules and ignore paths.
 - Improve multi-line public declaration detection.
 - Add file-level documentation coverage summaries.
 - Add CI mode with coverage thresholds and non-zero exit codes.
